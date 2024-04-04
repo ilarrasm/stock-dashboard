@@ -1,7 +1,5 @@
-import Highcharts from "highcharts";
-import HighchartsReact from "highcharts-react-official";
-import { useState } from "react";
-
+/* import Highcharts from "highcharts";
+import HighchartsReact from "highcharts-react-official"; */
 /* const req = async () => {
   try {
     const response = await fetch(
@@ -41,20 +39,11 @@ const options = (historicalData) => ({
     },
   ],
 }); */
+
+import ListStockView from "./components/views/ListStockView/ListStockView";
+
 function App() {
-  const [myData, ] = useState(null);
-/*   useEffect(() => {
-    req().then((d) => {
-      console.log(d.values[0], "d");
-      setdata(options(d.values));
-    });
-  }, []); */
-  return (
-    <>
-      Hola!
-      {!!myData && <HighchartsReact highcharts={Highcharts} options={myData} />}
-    </>
-  );
+  return <ListStockView />;
 }
 
 export default App;
@@ -157,4 +146,3 @@ interface ScreenChart<V extends string, I> {
 
 
 */
-
