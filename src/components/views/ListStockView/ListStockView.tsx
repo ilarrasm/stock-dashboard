@@ -20,7 +20,3 @@ const ListStockView = () => {
 };
 
 export default ListStockView;
-/* 
-
-
-*/

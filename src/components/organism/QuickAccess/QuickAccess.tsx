@@ -45,6 +45,7 @@ const QuickAccess = ({ options }: QuickAccessProps) => {
         onClick={() => {
           console.log(`${symbolState} el simbolo adonde ir`);
         }}
+        sx={{ justifyContent: "center" }}
       >
         Ir
       </Button>

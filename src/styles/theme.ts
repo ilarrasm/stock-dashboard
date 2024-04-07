@@ -4,6 +4,7 @@ const theme = createTheme({
   typography: {
     button: {
       textTransform: "none",
+      justifyContent: "stretch",
     },
   },
 });

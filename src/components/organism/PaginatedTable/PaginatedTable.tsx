@@ -2,13 +2,12 @@ import {
   Box,
   Pagination,
   Typography,
-  useMediaQuery,
-  useTheme,
 } from "@mui/material";
 import { Stock } from "../../../types/stock";
 import { useState } from "react";
 import { ColDef } from "../Table/types/index.types";
 import Table from "../Table/Table";
+import useIsMobile from "../../../hooks/useIsMobile";
 
 const columns: ColDef[] = [
   { field: "name", headerName: "Nombre", width: 4 },
@@ -25,10 +24,15 @@ const PaginatedTable = ({
   data: Stock[][];
 }) => {
   const [page, setPage] = useState(1);
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
+  const isMobile = useIsMobile();
   return (
-    <Box display="flex" flexDirection="column" alignItems="center" width="100%" gap="1rem">
+    <Box
+      display="flex"
+      flexDirection="column"
+      alignItems="center"
+      width="100%"
+      gap="1rem"
+    >
       <Typography variant="h2" fontSize="2rem" textAlign="left" width="100%">
         Tabla de Acciones
       </Typography>

@@ -11,7 +11,6 @@ export default function Table({
   columns: ColDef[];
   rows: Stock[];
 }) {
-  console.log(rows);
   return (
     <Box
       display="flex"
@@ -20,6 +19,7 @@ export default function Table({
       height="100%"
       overflow="hidden"
       borderRadius="8px"
+      
     >
       {/* Header Table */}
       <HeaderTable columns={columns} />
