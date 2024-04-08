@@ -3,13 +3,13 @@ import DatePicker from "react-datepicker";
 import { Input } from "@mui/material";
 import { useMemo } from "react";
 
-interface DataProps {
+export interface DataProps {
   date: Date | null;
   value: string;
   onchange: (newVal: Date | null) => void;
 }
 
-const now = new Date();
+const NOW_DATE = new Date();
 
 interface DataTimePickerProps {
   startDate: DataProps;
@@ -29,7 +29,7 @@ const DataTimePicker = ({ startDate, endDate }: DataTimePickerProps) => {
         selected={startDate.date}
         onChange={startDate.onchange}
         value={startDate.value}
-        maxDate={now}
+        maxDate={NOW_DATE}
         customInput={<Input readOnly />}
         showTimeSelect
         placeholderText="Seleccione fecha de entrada"
@@ -37,7 +37,7 @@ const DataTimePicker = ({ startDate, endDate }: DataTimePickerProps) => {
       <DatePicker
         selected={endDate.date}
         minDate={getMinDate}
-        maxDate={now}
+        maxDate={NOW_DATE}
         onChange={endDate.onchange}
         value={endDate.value}
         customInput={<Input readOnly />}

@@ -29,10 +29,16 @@ const chartPageSlice = createSlice({
         payload: { variantView },
       }: PayloadAction<Pick<ChartPageProps, "variantView">>
     ) => ({ ...state, variantView }),
+    cleanState: () => initialState,
   },
 });
 
-export const { changeVariant, changeInterval, changeDates, changeVariantView } =
-  chartPageSlice.actions;
+export const {
+  changeVariant,
+  changeInterval,
+  changeDates,
+  changeVariantView,
+  cleanState,
+} = chartPageSlice.actions;
 
 export default chartPageSlice.reducer;

@@ -1,10 +1,10 @@
 import { useState } from "react";
 import DataTimeInput from "../../molecules/DataTimeInput/DataTimeInput";
 import DataTimePicker from "../../molecules/DataTimePicker/DataTimePicker";
-import dayjs from "dayjs";
 import { Box, Button, Dialog, Typography } from "@mui/material";
 import useIsMobile from "../../../hooks/useIsMobile";
 import { Close } from "@mui/icons-material";
+import { formatToString, generateDatetimePickerProps } from "./helpers";
 
 const INITIAL_STATE = {
   isOpen: false,
@@ -12,31 +12,31 @@ const INITIAL_STATE = {
   endDate: "",
 };
 
-const format = "YYYY-MM-DD HH:mm";
-
-const formatToString = (date: Date | null) => {
-  if (!date) return "";
-  return dayjs(date).format(format).toString();
-};
-
-const transformToDate = (date: string) => {
-  const dateFormatted = dayjs(date);
-  if (!dateFormatted.isValid()) return null;
-  return dateFormatted.toDate();
-};
-
 const DataTimeSection = () => {
   const [{ isOpen, startDate, endDate }, setStateSection] =
     useState(INITIAL_STATE);
   const isMobile = useIsMobile();
+  const handleOnchangeStartDate = (newValue: Date | null) => {
+    setStateSection((state) => ({
+      ...state,
+      startDate: formatToString(newValue),
+    }));
+  };
+  const handleOnchangeEndDate = (newValue: Date | null) => {
+    setStateSection((state) => ({
+      ...state,
+      endDate: formatToString(newValue),
+    }));
+  };
+  const handleChangeIsOpen = (isOpen: boolean) => {
+    setStateSection((prevState) => ({ ...prevState, isOpen }));
+  };
   return (
     <>
       <DataTimeInput
         startDate={startDate}
         endDate={endDate}
-        onClick={() =>
-          setStateSection((prevState) => ({ ...prevState, isOpen: true }))
-        }
+        onClick={() => handleChangeIsOpen(true)}
       />
 
       <Dialog open={isOpen} fullScreen={isMobile} maxWidth="xs" fullWidth>
@@ -61,36 +61,21 @@ const DataTimeSection = () => {
         >
           <Typography variant="h6">Selecciona fecha y hora</Typography>
           <DataTimePicker
-            startDate={{
-              value: startDate,
-              date: transformToDate(startDate),
-              onchange: (newValue) => {
-                console.log(formatToString(newValue));
-                setStateSection((state) => ({
-                  ...state,
-                  startDate: formatToString(newValue),
-                }));
-              },
-            }}
-            endDate={{
-              value: endDate,
-              date: transformToDate(endDate),
-              onchange: (newVal) => {
-                setStateSection((state) => ({
-                  ...state,
-                  endDate: formatToString(newVal),
-                }));
-              },
-            }}
+            startDate={generateDatetimePickerProps(
+              startDate,
+              handleOnchangeStartDate
+            )}
+            endDate={generateDatetimePickerProps(
+              endDate,
+              handleOnchangeEndDate
+            )}
           />
         </Box>
         <Box display="flex" justifyContent="flex-end" p="1rem">
           <Button
             variant="contained"
             disabled={!startDate || !endDate}
-            onClick={() =>
-              setStateSection((state) => ({ ...state, isOpen: false }))
-            }
+            onClick={() => handleChangeIsOpen(false)}
           >
             Aplicar
           </Button>

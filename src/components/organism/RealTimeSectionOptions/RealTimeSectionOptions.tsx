@@ -6,6 +6,8 @@ import {
 } from "../../../redux/slices/chartPage";
 import RealTimeSelect from "../../molecules/RealTimeSelect/RealTimeSelect";
 import useGetDatatimeRequest from "../../../services/stockDetails/hooks/useGetDatatime";
+import { useCallback } from "react";
+import { IntervalTime } from "../../../redux/slices/chartPage/index.type";
 
 const RealTimeSectionOptions = () => {
   const { interval, variantView } = useAppSelector(
@@ -13,6 +15,18 @@ const RealTimeSectionOptions = () => {
   );
   const dispatch = useAppDispatch();
   const { refetch } = useGetDatatimeRequest();
+
+  const handleApplyRealtimeInterval = useCallback(() => {
+    dispatch(changeVariantView({ variantView: "realtime" }));
+    refetch();
+  }, [dispatch, refetch]);
+  
+  const handleChangeSelectInterval = useCallback(
+    (newInterval: IntervalTime) =>
+      dispatch(changeInterval({ interval: newInterval })),
+    [dispatch]
+  );
+
   return (
     <Box display="flex" flexDirection="column" gap="1rem">
       <Typography variant="body1">
@@ -21,17 +35,10 @@ const RealTimeSectionOptions = () => {
 
       <RealTimeSelect
         interval={interval}
-        callback={(interval) => dispatch(changeInterval({ interval }))}
+        callback={handleChangeSelectInterval}
       />
       {variantView !== "realtime" && (
-        <Button
-          onClick={() => {
-            dispatch(changeVariantView({ variantView: "realtime" }));
-            refetch();
-          }}
-        >
-          Aplicar
-        </Button>
+        <Button onClick={handleApplyRealtimeInterval}>Aplicar</Button>
       )}
     </Box>
   );
