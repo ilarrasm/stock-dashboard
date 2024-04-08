@@ -13,6 +13,7 @@ const HeaderTable = memo(({ columns }: { columns: ColDef[] }) => {
           pl=".5rem"
           gridColumn={`${index + 1} / ${index + 2} `}
           color="#EEEEEE"
+          fontSize="12px"
         >
           {headerName}
         </Box>

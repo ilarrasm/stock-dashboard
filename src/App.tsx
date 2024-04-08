@@ -1,7 +1,12 @@
-import StockChartView from "./components/views/StockChartView/StockChartView";
+import { BrowserRouter } from "react-router-dom";
+import Routing from "./components/routes/routing";
 
 function App() {
-  return <StockChartView />;
+  return (
+    <BrowserRouter>
+      <Routing />
+    </BrowserRouter>
+  );
 }
 
 export default App;

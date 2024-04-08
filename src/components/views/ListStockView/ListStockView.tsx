@@ -1,19 +1,24 @@
 import { Box, Typography } from "@mui/material";
 import QuickAccess from "../../organism/QuickAccess/QuickAccess";
 import PaginatedTable from "../../organism/PaginatedTable/PaginatedTable";
-import stocks from "../../../mocks/tableData.json";
-import paginate from "../../../helpers/paginate";
+import StockListWithPagination from "../../../services/stockList/index.type";
 
-const paginateData = paginate(stocks.data, 10);
-
-const ListStockView = () => {
+const ListStockView = ({ data }: { data: StockListWithPagination }) => {
   return (
-    <Box display="flex" flexDirection="column" width="100%" p="1rem" gap="1.5rem">
-      <Typography variant="h1" fontSize="2rem">Acciones en Nasdaq</Typography>
-      <QuickAccess options={stocks.data} />
+    <Box
+      display="flex"
+      flexDirection="column"
+      width="100%"
+      p="1rem"
+      gap="1.5rem"
+    >
+      <Typography variant="h1" fontSize="2rem">
+        Acciones en Nasdaq
+      </Typography>
+      <QuickAccess options={data.dataAutocomplete} />
       <PaginatedTable
-        data={paginateData.data}
-        totalPage={paginateData.totalPages}
+        data={data.paginateTable.data}
+        totalPage={data.paginateTable.totalPages}
       />
     </Box>
   );

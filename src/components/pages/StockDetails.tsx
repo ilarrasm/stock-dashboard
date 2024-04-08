@@ -1,3 +1,8 @@
+import useGetRealTimeRequest from "../../services/stockDetails/hooks/useGetRealTime";
+import StockChartView from "../views/StockChartView/StockChartView";
+
 export const StockDetails = () => {
-  return <div>StockDetails</div>;
+  useGetRealTimeRequest();
+
+  return <StockChartView />;
 };
