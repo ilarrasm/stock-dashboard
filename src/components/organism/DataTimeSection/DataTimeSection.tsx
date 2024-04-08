@@ -4,7 +4,7 @@ import DataTimePicker from "../../molecules/DataTimePicker/DataTimePicker";
 import dayjs from "dayjs";
 import { Box, Button, Dialog, Typography } from "@mui/material";
 import useIsMobile from "../../../hooks/useIsMobile";
-
+import { Close } from "@mui/icons-material";
 
 const INITIAL_STATE = {
   isOpen: false,
@@ -16,7 +16,7 @@ const format = "YYYY-MM-DD HH:mm";
 
 const formatToString = (date: Date | null) => {
   if (!date) return "";
-  return dayjs(date.setUTCDate(0)).format(format).toString();
+  return dayjs(date).format(format).toString();
 };
 
 const transformToDate = (date: string) => {
@@ -39,14 +39,25 @@ const DataTimeSection = () => {
         }
       />
 
-      <Dialog open={isOpen} maxWidth="lg" fullScreen={isMobile}>
+      <Dialog open={isOpen} fullScreen={isMobile} maxWidth="xs" fullWidth>
+        <Button
+          sx={{ alignSelf: "flex-end", p: "1rem" }}
+          variant="text"
+          color="inherit"
+          onClick={() =>
+            setStateSection((prevState) => ({ ...prevState, isOpen: false }))
+          }
+        >
+          <Close />
+        </Button>
         <Box
-          width="30vw"
-          height="23vh"
           display="flex"
+          width="100%"
+          height="60vh"
           flexDirection="column"
           gap="1rem"
           p="1rem"
+          alignItems="center"
         >
           <Typography variant="h6">Selecciona fecha y hora</Typography>
           <DataTimePicker
@@ -54,6 +65,7 @@ const DataTimeSection = () => {
               value: startDate,
               date: transformToDate(startDate),
               onchange: (newValue) => {
+                console.log(formatToString(newValue));
                 setStateSection((state) => ({
                   ...state,
                   startDate: formatToString(newValue),
@@ -71,16 +83,17 @@ const DataTimeSection = () => {
               },
             }}
           />
-          <Box display="flex" justifyContent="flex-end">
-            <Button
-              disabled={!startDate || !endDate}
-              onClick={() =>
-                setStateSection((state) => ({ ...state, isOpen: false }))
-              }
-            >
-              Aplicar
-            </Button>
-          </Box>
+        </Box>
+        <Box display="flex" justifyContent="flex-end" p="1rem">
+          <Button
+            variant="contained"
+            disabled={!startDate || !endDate}
+            onClick={() =>
+              setStateSection((state) => ({ ...state, isOpen: false }))
+            }
+          >
+            Aplicar
+          </Button>
         </Box>
       </Dialog>
     </>
@@ -88,8 +101,3 @@ const DataTimeSection = () => {
 };
 
 export default DataTimeSection;
-
-/* 
-
-changeDates
-*/

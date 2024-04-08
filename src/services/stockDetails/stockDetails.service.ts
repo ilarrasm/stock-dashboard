@@ -27,11 +27,24 @@ export const stockDetailsApi = createApi({
     getStockDatetime: builder.query<StockDetailsQuery, StockApiDatatimeProps>({
       query: ({ exchange, symbol, startDate, endDate }) => {
         const datetimeInterval = getDatetimeInterval(startDate, endDate);
-        return `/time_series?symbol=${symbol}&start_date=${encodeURIComponent(startDate)}&end_date=${encodeURIComponent(endDate)}&exchange=${exchange}&interval=${datetimeInterval}&apikey=${API_KEY}`;
+        return `/time_series?symbol=${symbol}&start_date=${encodeURIComponent(
+          startDate
+        )}&end_date=${encodeURIComponent(
+          endDate
+        )}&exchange=${exchange}&interval=${datetimeInterval}&apikey=${API_KEY}`;
+      },
+    }),
+    getMetaStock: builder.query<StockDetailsQuery["meta"], { symbol: string }>({
+      query: ({ symbol }) => `/stocks?symbol=${symbol}&exchange=NASDAQ`,
+      transformResponse: (res: { data: StockDetailsQuery["meta"][] }) => {
+        return res.data[0];
       },
     }),
   }),
 });
 
-export const { useGetStockrealtimeQuery, useGetStockDatetimeQuery } =
-  stockDetailsApi;
+export const {
+  useGetStockrealtimeQuery,
+  useGetStockDatetimeQuery,
+  useGetMetaStockQuery,
+} = stockDetailsApi;

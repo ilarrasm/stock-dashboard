@@ -1,13 +1,8 @@
 import { Box, Button, Typography } from "@mui/material";
-import { ChartPageProps } from "../../../redux/slices/chartPage/index.type";
-import { useAppDispatch } from "../../../hooks/redux";
+import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
 import { changeDates } from "../../../redux/slices/chartPage";
-
-interface DataTimeInputProps {
-  startDate: ChartPageProps["startDate"];
-  endDate: ChartPageProps["endDate"];
-  onClick: () => void;
-}
+import { isDisableValidator } from "./helpers/date.utils";
+import { DataTimeInputProps } from "./index.type";
 
 const generateText = (startDate: string, endDate: string) => {
   if (!startDate || !endDate) return "Sin fecha";
@@ -16,7 +11,15 @@ const generateText = (startDate: string, endDate: string) => {
 
 const DataTimeInput = ({ startDate, endDate, onClick }: DataTimeInputProps) => {
   const dispatch = useAppDispatch();
-
+  const { startDate: startDateCurrent, endDate: endDateCurrent } =
+    useAppSelector(({ chartPage }) => chartPage);
+  const isDisable = isDisableValidator(
+    {
+      startDate: startDateCurrent,
+      endDate: endDateCurrent,
+    },
+    { startDate, endDate }
+  );
   return (
     <Box
       display="flex"
@@ -42,6 +45,7 @@ const DataTimeInput = ({ startDate, endDate, onClick }: DataTimeInputProps) => {
               })
             )
           }
+          disabled={isDisable}
           variant="contained"
         >
           Enviar
