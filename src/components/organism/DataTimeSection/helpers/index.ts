@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import { FORMAT_DATE } from "../../../../helpers/commons";
-import { DataProps } from "../../../molecules/DataTimePicker/DataTimePicker";
+import { DataProps } from "../../../molecules/DataTimePicker/index.type";
 
 export const generateDatetimePickerProps = (
   date: string,

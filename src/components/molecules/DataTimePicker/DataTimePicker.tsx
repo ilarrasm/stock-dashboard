@@ -1,28 +1,13 @@
 import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "react-datepicker";
 import { Input } from "@mui/material";
-import { useMemo } from "react";
-
-export interface DataProps {
-  date: Date | null;
-  value: string;
-  onchange: (newVal: Date | null) => void;
-}
+import { DataTimePickerProps } from "./index.type";
+import useGetMinDate from "./hooks/useGetMinDate";
 
 const NOW_DATE = new Date();
 
-interface DataTimePickerProps {
-  startDate: DataProps;
-  endDate: DataProps;
-}
-
 const DataTimePicker = ({ startDate, endDate }: DataTimePickerProps) => {
-  const getMinDate = useMemo(() => {
-    if (!startDate.date) return null;
-    const minDate = new Date(startDate.date);
-    minDate.setDate(startDate.date.getDate() + 1);
-    return minDate;
-  }, [startDate.date]);
+  const minDate = useGetMinDate({ startDate });
   return (
     <>
       <DatePicker
@@ -36,7 +21,7 @@ const DataTimePicker = ({ startDate, endDate }: DataTimePickerProps) => {
       />
       <DatePicker
         selected={endDate.date}
-        minDate={getMinDate}
+        minDate={minDate}
         maxDate={NOW_DATE}
         onChange={endDate.onchange}
         value={endDate.value}

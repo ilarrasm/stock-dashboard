@@ -1,10 +1,9 @@
 import { useState } from "react";
 import DataTimeInput from "../../molecules/DataTimeInput/DataTimeInput";
-import DataTimePicker from "../../molecules/DataTimePicker/DataTimePicker";
-import { Box, Button, Dialog, Typography } from "@mui/material";
+import { Dialog } from "@mui/material";
 import useIsMobile from "../../../hooks/useIsMobile";
-import { Close } from "@mui/icons-material";
-import { formatToString, generateDatetimePickerProps } from "./helpers";
+import { formatToString } from "./helpers";
+import DataPickerCore from "./components/DataPickerCore";
 
 const INITIAL_STATE = {
   isOpen: false,
@@ -31,6 +30,7 @@ const DataTimeSection = () => {
   const handleChangeIsOpen = (isOpen: boolean) => {
     setStateSection((prevState) => ({ ...prevState, isOpen }));
   };
+
   return (
     <>
       <DataTimeInput
@@ -40,46 +40,13 @@ const DataTimeSection = () => {
       />
 
       <Dialog open={isOpen} fullScreen={isMobile} maxWidth="xs" fullWidth>
-        <Button
-          sx={{ alignSelf: "flex-end", p: "1rem" }}
-          variant="text"
-          color="inherit"
-          onClick={() =>
-            setStateSection((prevState) => ({ ...prevState, isOpen: false }))
-          }
-        >
-          <Close />
-        </Button>
-        <Box
-          display="flex"
-          width="100%"
-          height="60vh"
-          flexDirection="column"
-          gap="1rem"
-          p="1rem"
-          alignItems="center"
-        >
-          <Typography variant="h6">Selecciona fecha y hora</Typography>
-          <DataTimePicker
-            startDate={generateDatetimePickerProps(
-              startDate,
-              handleOnchangeStartDate
-            )}
-            endDate={generateDatetimePickerProps(
-              endDate,
-              handleOnchangeEndDate
-            )}
-          />
-        </Box>
-        <Box display="flex" justifyContent="flex-end" p="1rem">
-          <Button
-            variant="contained"
-            disabled={!startDate || !endDate}
-            onClick={() => handleChangeIsOpen(false)}
-          >
-            Aplicar
-          </Button>
-        </Box>
+        <DataPickerCore
+          handleOnchangeStartDate={handleOnchangeStartDate}
+          handleOnchangeEndDate={handleOnchangeEndDate}
+          handleClose={() => handleChangeIsOpen(true)}
+          currentStartDate={startDate}
+          currentEndDate={endDate}
+        />
       </Dialog>
     </>
   );
