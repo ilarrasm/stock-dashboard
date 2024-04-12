@@ -43,7 +43,7 @@ const DataTimeSection = () => {
         <DataPickerCore
           handleOnchangeStartDate={handleOnchangeStartDate}
           handleOnchangeEndDate={handleOnchangeEndDate}
-          handleClose={() => handleChangeIsOpen(true)}
+          handleClose={() => handleChangeIsOpen(false)}
           currentStartDate={startDate}
           currentEndDate={endDate}
         />
